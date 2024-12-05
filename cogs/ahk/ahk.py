@@ -651,6 +651,7 @@ class AutoHotkey(AceMixin, commands.Cog):
             args = dict(embed=embed, components=rows)
 
             if message is None:
+                await thread.owner.add_roles(thread.guild.get_role(LEVEL_ROLE_IDS["Newcomer (Level 1+)"]))
                 content = (
                     f"{thread.owner.mention} Increase your visibility by adding tags your post!"
                 )
