@@ -188,13 +188,17 @@ class AutoHotkey(AceMixin, commands.Cog):
         await self.bot.wait_until_ready()
 
         forum: disnake.ForumChannel = self.bot.get_channel(HELP_FORUM_CHAN_ID)
+        members = self.bot.get_all_members()
 
         for thread in forum.threads:
             if thread.is_pinned() or thread.archived:
                 continue
 
             base = disnake.utils.snowflake_time(thread.last_message_id or thread.id)
-            delta = timedelta(minutes=thread.auto_archive_duration)
+            if thread.owner in members:
+                delta = timedelta(minutes=thread.auto_archive_duration)
+            else:
+                delta = timedelta(minutes=30)
             base += delta
             now = disnake.utils.utcnow()
 
